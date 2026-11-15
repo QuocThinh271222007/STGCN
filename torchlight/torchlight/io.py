@@ -29,7 +29,7 @@ class IO():
         self.pavi_logger = None
         self.session_file = None
         self.model_text = ''
-        
+
     # PaviLogger is removed in this version
     def log(self, *args, **kwargs):
         pass
@@ -61,7 +61,11 @@ class IO():
             ignore_weights = [ignore_weights]
 
         self.print_log('Load weights from {}.'.format(weights_path))
-        weights = torch.load(weights_path)
+        weights = torch.load(
+            weights_path,
+            map_location="cpu",
+            weights_only=False,
+        )
         weights = OrderedDict([[k.split('module.')[-1],
                                 v.cpu()] for k, v in weights.items()])
 
